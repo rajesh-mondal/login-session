@@ -7,8 +7,14 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
     if ( 'admin' == $_POST['username'] && 'rabbit' == $_POST['password'] ) {
         $_SESSION['loggedin'] = true;
     } else {
+        $error = true;
         $_SESSION['loggedin'] = false;
     }
+}
+
+if ( isset( $_POST['logout'] ) ) {
+    $_SESSION['loggedin'] = false;
+    session_destroy();
 }
 
 ?>
@@ -47,6 +53,9 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
             <div class="row" style="margin-top:20px;">
                 <div class="column column-60 column-offset-20">
                     <?php
+                    if ( $error ) {
+                        echo "<blockquote>Username and Password didn't match</blockquote>";
+                    }
                     if ( false == $_SESSION['loggedin'] ):
                     ?>
                     <form method="POST">
@@ -59,7 +68,8 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
                     <?php
                     else:
                     ?>
-                    <form action="auth.php?logout=true" method="POST">
+                    <form action="auth.php" method="POST">
+                        <input type="hidden" name="logout" value="1">
                         <button type="submit" class="button-primary" name="submit">Log Out</button>
                     </form>
                     <?php
