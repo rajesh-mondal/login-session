@@ -1,3 +1,17 @@
+<?php
+session_start( [
+    'cookie_lifetime' => 300,
+] );
+
+if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
+    if ( 'admin' == $_POST['username'] && 'rabbit' == $_POST['password'] ) {
+        $_SESSION['loggedin'] = true;
+    } else {
+        $_SESSION['loggedin'] = false;
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -21,10 +35,20 @@
             </div>
             <div class="row">
                 <div class="column column-60 column-offset-20">
+                    <?php
+                    if ( true == $_SESSION['loggedin'] ) {
+                        echo "Hello Admin, Welcome.";
+                    } else {
+                        echo "Hello Stranger! Login Below";
+                    }
+                    ?>
                 </div>
             </div>
             <div class="row" style="margin-top:20px;">
                 <div class="column column-60 column-offset-20">
+                    <?php
+                    if ( false == $_SESSION['loggedin'] ):
+                    ?>
                     <form method="POST">
                         <label for="username">Username</label>
                         <input type="text" name="username" id="username">
@@ -32,6 +56,15 @@
                         <input type="password" name="password" id="password">
                         <button type="submit" class="button-primary" name="submit">Log In</button>
                     </form>
+                    <?php
+                    else:
+                    ?>
+                    <form action="auth.php?logout=true" method="POST">
+                        <button type="submit" class="button-primary" name="submit">Log Out</button>
+                    </form>
+                    <?php
+                    endif;
+                    ?>
                 </div>
             </div>
         </div>
