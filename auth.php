@@ -4,7 +4,7 @@ session_start( [
 ] );
 
 if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
-    if ( 'admin' == $_POST['username'] && 'rabbit' == $_POST['password'] ) {
+    if ( 'admin' == $_POST['username'] && '6d0ebbbdce32474db8141d23d2c01bd9628d6e5f' == sha1($_POST['password']) ) {
         $_SESSION['loggedin'] = true;
     } else {
         $error = true;
